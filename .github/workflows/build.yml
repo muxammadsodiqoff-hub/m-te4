@@ -23,6 +23,17 @@ jobs:
         with:
           gradle-version: "8.9"
 
+      # AI rasm dvigateli (stable-diffusion.cpp), aniq bir versiyaga mahkamlangan.
+      - name: Fetch stable-diffusion.cpp
+        run: |
+          mkdir -p app/src/main/cpp/sdcpp
+          cd app/src/main/cpp/sdcpp
+          git init -q
+          git remote add origin https://github.com/leejet/stable-diffusion.cpp
+          git fetch -q --depth 1 origin 32d516c0197ed5ca31305b8575e14eb1451fad33
+          git checkout -q FETCH_HEAD
+          git submodule update --init --depth 1 ggml
+
       - name: Build debug APK
         shell: bash
         run: |

@@ -5,3 +5,6 @@ local.properties
 .idea/
 *.apk
 build.log
+app/src/main/cpp/sdcpp/
+.cxx/
+app/.cxx/

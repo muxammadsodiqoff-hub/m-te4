@@ -50,10 +50,15 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -79,9 +84,23 @@ class MainActivity : ComponentActivity() {
                 ),
             ) {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    EditorScreen()
+                    AppTabs()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AppTabs() {
+    var tab by rememberSaveable { mutableIntStateOf(0) }
+    Column(modifier = Modifier.fillMaxSize()) {
+        TabRow(selectedTabIndex = tab) {
+            Tab(selected = tab == 0, onClick = { tab = 0 }, text = { Text("Montaj") })
+            Tab(selected = tab == 1, onClick = { tab = 1 }, text = { Text("AI rasm") })
+        }
+        Box(modifier = Modifier.weight(1f)) {
+            if (tab == 0) EditorScreen() else AiScreen()
         }
     }
 }
@@ -108,7 +127,6 @@ fun EditorScreen(vm: EditorViewModel = viewModel()) {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Video Studio") }) },
         bottomBar = {
             Surface(tonalElevation = 3.dp) {
                 Row(

@@ -12,8 +12,18 @@ android {
         applicationId = "uz.ms.videostudio"
         minSdk = 29
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.2"
+
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
+        externalNativeBuild {
+            cmake {
+                // Dvigatel debug APK ichida ham to'liq optimallashtirilgan holda yig'iladi.
+                arguments += listOf("-DCMAKE_BUILD_TYPE=Release", "-DANDROID_STL=c++_static")
+            }
+        }
     }
 
     // Har bir yig'ishda bir xil imzo bo'lishi uchun (yangilanish ustidan o'rnatiladi).
@@ -41,6 +51,11 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 }
 
